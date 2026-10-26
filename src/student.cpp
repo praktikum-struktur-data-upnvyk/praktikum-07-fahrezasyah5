@@ -2,7 +2,7 @@
 // student.cpp — Implementasi Mahasiswa
 // Pertemuan 7: Binary Tree dan Traversal
 // =============================================================================
-// FILE YANG BOLEH DIEDIT      : src/student.cpp  ← HANYA FILE INI
+// FILE YANG BOLEH DIEDIT       : src/student.cpp  ← HANYA FILE INI
 // FILE YANG TIDAK BOLEH DIEDIT: src/student.h, tests/checker.cpp, tests/report.h
 //
 // -----------------------------------------------------------------------------
@@ -37,16 +37,16 @@
 using namespace std;
 
 // =============================================================================
-// SOAL 1a — preorder                                                   20 poin
+// SOAL 1a — preorder                                                  20 poin
 // =============================================================================
 // Contoh:
 //
-//               50
-//              ╱  ╲
-//            80    20            preorder(root) mencetak:
-//           ╱  ╲     ╲
-//         10    70    90             50 80 10 70 30 20 90
-//              ╱
+//              50
+//             ╱  ╲
+//           80    20           preorder(root) mencetak:
+//          ╱  ╲    ╲
+//        10    70   90             50 80 10 70 30 20 90
+//             ╱
 //            30
 //
 //   Coba runut pelan-pelan supaya urutannya masuk akal:
@@ -67,19 +67,23 @@ using namespace std;
 //     preorder(&satu);      // mencetak:  42
 // =============================================================================
 void preorder(const Node* root) {
+    if (root == NULL) return;
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
 }
 
 // =============================================================================
-// SOAL 1b — inorder                                                    20 poin
+// SOAL 1b — inorder                                                   20 poin
 // =============================================================================
 // Contoh:
 //
-//               50
-//              ╱  ╲
-//            80    20            inorder(root) mencetak:
-//           ╱  ╲     ╲
-//         10    70    90             10 80 30 70 50 20 90
-//              ╱
+//              50
+//             ╱  ╲
+//           80    20           inorder(root) mencetak:
+//          ╱  ╲    ╲
+//        10    70   90             10 80 30 70 50 20 90
+//             ╱
 //            30
 //
 //   Bandingkan dengan preorder yang mencetak  50 80 10 70 30 20 90.
@@ -90,44 +94,52 @@ void preorder(const Node* root) {
 //     inorder(NULL);     // tidak mencetak apa pun
 // =============================================================================
 void inorder(const Node* root) {
+    if (root == NULL) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
 }
 
 // =============================================================================
-// SOAL 1c — postorder                                                  20 poin
+// SOAL 1c — postorder                                                 20 poin
 // =============================================================================
 // Contoh:
 //
-//               50
-//              ╱  ╲
-//            80    20            postorder(root) mencetak:
-//           ╱  ╲     ╲
-//         10    70    90             10 30 70 80 90 20 50
-//              ╱
+//              50
+//             ╱  ╲
+//           80    20           postorder(root) mencetak:
+//          ╱  ╲    ╲
+//        10    70   90             10 30 70 80 90 20 50
+//             ╱
 //            30
 //
 //   Ketiganya berdampingan supaya bedanya terlihat:
 //
-//     preorder  : 50 80 10 70 30 20 90     <- 50 di depan
-//     inorder   : 10 80 30 70 50 20 90     <- 50 di tengah
-//     postorder : 10 30 70 80 90 20 50     <- 50 di belakang
+//     preorder  : 50 80 10 70 30 20 90    <- 50 di depan
+//     inorder   : 10 80 30 70 50 20 90    <- 50 di tengah
+//     postorder : 10 30 70 80 90 20 50    <- 50 di belakang
 //
 //     postorder(NULL);   // tidak mencetak apa pun
 // =============================================================================
 void postorder(const Node* root) {
+    if (root == NULL) return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
 }
 
 // =============================================================================
-// SOAL 2b — clear                                                      25 poin
+// SOAL 2b — clear                                                     25 poin
 // =============================================================================
 // Contoh:
 //
-//               50
-//              ╱  ╲
-//            80    20            clear(root);
-//           ╱  ╲     ╲
-//         10    70    90         sesudahnya:
-//              ╱                   root == NULL
-//            30                     ketujuh node sudah dibuang dari memori
+//              50
+//             ╱  ╲
+//           80    20           clear(root);
+//          ╱  ╲    ╲
+//        10    70   90         sesudahnya:
+//             ╱                root == NULL
+//            30                    ketujuh node sudah dibuang dari memori
 //
 //   Memanggilnya pada tree yang sudah kosong adalah sah:
 //
@@ -140,22 +152,27 @@ void postorder(const Node* root) {
 //     clear(root);              // aman, tidak terjadi apa-apa
 // =============================================================================
 void clear(Node*& root) {
+    if (root == NULL) return;
+    clear(root->left);
+    clear(root->right);
+    delete root;
+    root = NULL;
 }
 
 // =============================================================================
-// SOAL 3 — jumlahDaun                          SOAL CERITA             15 poin
+// SOAL 3 — jumlahDaun                                  SOAL CERITA            15 poin
 // =============================================================================
 // Contoh:
 //
-//               50                jumlahDaun(root)  ->  3
-//              ╱  ╲
-//            80    20             Yang termasuk daun: 10, 30, dan 90.
-//           ╱  ╲     ╲
-//         10    70    90          Yang BUKAN daun:
-//              ╱                    50  punya dua cabang
-//            30                      80  punya dua cabang
-//                                    20  punya satu cabang (90)
-//                                    70  punya satu cabang (30)
+//              50                jumlahDaun(root)  ->  3
+//             ╱  ╲
+//           80    20            Yang termasuk daun: 10, 30, dan 90.
+//          ╱  ╲    ╲
+//        10    70   90          Yang BUKAN daun:
+//             ╱                   50  punya dua cabang
+//            30                   80  punya dua cabang
+//                                 20  punya satu cabang (90)
+//                                 70  punya satu cabang (30)
 //
 //   Perhatikan 20 dan 70 baik-baik. Keduanya cuma punya SATU cabang, dan itu
 //   tetap membuat mereka BUKAN daun. Daun harus benar-benar tidak punya cabang
@@ -172,12 +189,14 @@ void clear(Node*& root) {
 //
 //         5
 //        ╱
-//       4                        jumlahDaun(root)  ->  1
-//      ╱                         (hanya node 3; node 5 dan 4 masing-masing
-//     3                           masih punya satu cabang)
+//       4                         jumlahDaun(root)  ->  1
+//      ╱                          (hanya node 3; node 5 dan 4 masing-masing
+//     3                            masih punya satu cabang)
 // =============================================================================
 int jumlahDaun(const Node* root) {
-    return 0;
+    if (root == NULL) return 0;
+    if (root->left == NULL && root->right == NULL) return 1;
+    return jumlahDaun(root->left) + jumlahDaun(root->right);
 }
 
 // =============================================================================
@@ -221,24 +240,24 @@ int jumlahDaun(const Node* root) {
 
 // Membangun tree contoh yang dipakai di seluruh soal:
 //
-//               50
-//              ╱  ╲
-//            80    20
-//           ╱  ╲     ╲
-//         10    70    90
-//              ╱
+//              50
+//             ╱  ╲
+//           80    20
+//          ╱  ╲    ╲
+//        10    70   90
+//             ╱
 //            30
 //
 // Sengaja dibangun manual dengan `new`, persis seperti pada modul. Perhatikan
 // bahwa fungsi-fungsi Anda TIDAK dipakai di sini — tree-nya dibentuk sendiri,
 // supaya program ini tetap bisa dijalankan walaupun soal belum dikerjakan.
 static Node* buatTreeContoh() {
-    Node* root              = new Node{50, NULL, NULL};
-    root->left              = new Node{80, NULL, NULL};
-    root->right             = new Node{20, NULL, NULL};
-    root->left->left        = new Node{10, NULL, NULL};
-    root->left->right       = new Node{70, NULL, NULL};
-    root->right->right      = new Node{90, NULL, NULL};
+    Node* root               = new Node{50, NULL, NULL};
+    root->left               = new Node{80, NULL, NULL};
+    root->right              = new Node{20, NULL, NULL};
+    root->left->left         = new Node{10, NULL, NULL};
+    root->left->right        = new Node{70, NULL, NULL};
+    root->right->right       = new Node{90, NULL, NULL};
     root->left->right->left = new Node{30, NULL, NULL};
     return root;
 }
@@ -282,13 +301,13 @@ int main() {
 
     cout << "\n[1] Tree contoh\n";
     cout << "\n";
-    cout << "              50\n";
-    cout << "             /  \\\n";
-    cout << "           80    20\n";
-    cout << "          /  \\     \\\n";
-    cout << "        10    70    90\n";
-    cout << "             /\n";
-    cout << "           30\n";
+    cout << "            50\n";
+    cout << "           /  \\\n";
+    cout << "         80    20\n";
+    cout << "        /  \\     \\\n";
+    cout << "      10    70   90\n";
+    cout << "           /\n";
+    cout << "          30\n";
     cout << "\n";
 
     // -------------------------------------------------------------------------
